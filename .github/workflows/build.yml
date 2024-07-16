@@ -1,0 +1,36 @@
+name: Build Distributable with Electron Forge
+
+on:
+  pull_request:
+    branches:
+      - main # Change to the branch you want to trigger this action
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # Use the Node.js version you need
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build # Adjust if your build command is different
+
+      - name: Package Electron app with Electron Forge
+        run: npm run make
+        env:
+          ELECTRON_CACHE: ${{ runner.temp }}/electron
+
+      - name: Upload distributable
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-electron-app
+          path: out/
