@@ -36,13 +36,55 @@ jobs:
         env:
           ELECTRON_CACHE: ${{ runner.temp }}/electron
 
-      - name: Upload distributables
+      - name: Upload distributables as artifacts
         uses: actions/upload-artifact@v2
         with:
           name: podo
           path: |
             out/*.deb
-            out/*.rpm
             out/*.msi
+            out/*.dmg
 
-      # Add additional steps as needed, such as publishing artifacts or releases
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          tag_name: v1.0.0 # Specify your release tag here
+          release_name: Release v1.0.0 # Specify your release name here
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Artifacts for Ubuntu (DEB)
+        id: upload-release-asset-deb
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: out/*.deb
+          asset_name: my-electron-app-${{ github.run_id }}.deb
+          asset_content_type: application/x-debian-package
+
+      - name: Upload Release Artifacts for Windows (MSI)
+        id: upload-release-asset-msi
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: out/*.msi
+          asset_name: my-electron-app-${{ github.run_id }}.msi
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Artifacts for macOS (DMG)
+        id: upload-release-asset-dmg
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: out/*.dmg
+          asset_name: my-electron-app-${{ github.run_id }}.dmg
+          asset_content_type: application/octet-stream
