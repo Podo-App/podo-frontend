@@ -1,27 +1,34 @@
-name: Build Distributable with Electron Forge
+name: Build Electron App and Create Distributables
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
-      - main # Change to the branch you want to trigger this action
+      - main
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: "16" # Use the Node.js version you need
+          node-version: "16" # Adjust to your Node.js version
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
+      - name: Build Electron app
         run: npm run build # Adjust if your build command is different
 
       - name: Package Electron app with Electron Forge
@@ -29,8 +36,13 @@ jobs:
         env:
           ELECTRON_CACHE: ${{ runner.temp }}/electron
 
-      - name: Upload distributable
-        uses: actions/upload-artifact@v3
+      - name: Upload distributables
+        uses: actions/upload-artifact@v2
         with:
-          name: my-electron-app
-          path: out/
+          name: electron-distributables
+          path: |
+            out/*.deb
+            out/*.rpm
+            out/*.msi
+
+      # Add additional steps as needed, such as publishing artifacts or releases
