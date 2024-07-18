@@ -37,6 +37,7 @@ jobs:
           ELECTRON_CACHE: ${{ runner.temp }}/electron
 
       - name: Upload distributables as artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: podo
@@ -45,6 +46,10 @@ jobs:
             out/*.msi
             out/*.dmg
 
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -55,6 +60,13 @@ jobs:
           release_name: Release v1.0.0 # Specify your release name here
           draft: false
           prerelease: false
+
+  upload-assets-ubuntu:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Upload Release Artifacts for Ubuntu (DEB)
         id: upload-release-asset-deb
@@ -67,6 +79,13 @@ jobs:
           asset_name: my-electron-app-${{ github.run_id }}.deb
           asset_content_type: application/x-debian-package
 
+  upload-assets-windows:
+    needs: create-release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Upload Release Artifacts for Windows (MSI)
         id: upload-release-asset-msi
         uses: actions/upload-release-asset@v1
@@ -77,6 +96,13 @@ jobs:
           asset_path: out/*.msi
           asset_name: my-electron-app-${{ github.run_id }}.msi
           asset_content_type: application/octet-stream
+
+  upload-assets-macos:
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Upload Release Artifacts for macOS (DMG)
         id: upload-release-asset-dmg
