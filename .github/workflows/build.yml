@@ -1,0 +1,120 @@
+name: Build Electron App and Create Distributables
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16" # Adjust to your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Electron app
+        run: npm run build # Adjust if your build command is different
+
+      - name: Package Electron app with Electron Forge
+        run: npm run make
+        env:
+          ELECTRON_CACHE: ${{ runner.temp }}/electron
+
+      - name: Upload distributables as artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: podo
+          path: |
+            out/*.deb
+            out/*.msi
+            out/*.dmg
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate tag name
+        id: generate_tag
+        run: echo "::set-output name=tag::v1.0.0-${{ github.run_number }}"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          tag_name: ${{ steps.generate_tag.outputs.tag }}
+          release_name: Release ${{ steps.generate_tag.outputs.tag }}
+          draft: false
+          prerelease: true
+
+  upload-assets-ubuntu:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload Release Artifacts for Ubuntu (DEB)
+        id: upload-release-asset-deb
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: out/*.deb
+          asset_name: podo-${{ github.run_id }}.deb
+          asset_content_type: application/x-debian-package
+
+  upload-assets-windows:
+    needs: create-release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload Release Artifacts for Windows (MSI)
+        id: upload-release-asset-msi
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: out/*.msi
+          asset_name: podo-${{ github.run_id }}.msi
+          asset_content_type: application/octet-stream
+
+  upload-assets-macos:
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload Release Artifacts for macOS (DMG)
+        id: upload-release-asset-dmg
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: out/*.dmg
+          asset_name: podo-${{ github.run_id }}.dmg
+          asset_content_type: application/octet-stream
