@@ -50,16 +50,20 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Generate tag name
+        id: generate_tag
+        run: echo "::set-output name=tag::v1.0.0-${{ github.run_number }}"
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
         with:
-          tag_name: v1.0.0 # Specify your release tag here
-          release_name: Release v1.0.0 # Specify your release name here
+          tag_name: ${{ steps.generate_tag.outputs.tag }}
+          release_name: Release ${{ steps.generate_tag.outputs.tag }}
           draft: false
-          prerelease: false
+          prerelease: true
 
   upload-assets-ubuntu:
     needs: create-release
