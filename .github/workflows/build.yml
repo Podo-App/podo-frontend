@@ -65,6 +65,11 @@ jobs:
           draft: false
           prerelease: true
 
+      - name: Debug Create Release Outputs
+        run: |
+          echo "Create Release Outputs:"
+          echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
+
   upload-assets-ubuntu:
     needs: create-release
     runs-on: ubuntu-latest
@@ -78,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
         with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs['create_release'].outputs.upload_url }}
           asset_path: out/*.deb
           asset_name: podo-${{ github.run_id }}.deb
           asset_content_type: application/x-debian-package
@@ -96,7 +101,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
         with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs['create_release'].outputs.upload_url }}
           asset_path: out/*.msi
           asset_name: podo-${{ github.run_id }}.msi
           asset_content_type: application/octet-stream
@@ -114,7 +119,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PODO_REPO_TOKEN }}
         with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          upload_url: ${{ needs.create-release.outputs['create_release'].outputs.upload_url }}
           asset_path: out/*.dmg
           asset_name: podo-${{ github.run_id }}.dmg
           asset_content_type: application/octet-stream
