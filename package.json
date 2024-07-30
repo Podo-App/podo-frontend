@@ -1,9 +1,9 @@
 {
-  "name": "vite-electron-app",
-  "version": "1.0.0",
+  "name": "podo",
+  "version": "0.0.1",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -53,13 +53,11 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
+      "npm run format",
+      "npm run lint"
     ],
     "*.{html,css,less,ejs}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   }
 }
