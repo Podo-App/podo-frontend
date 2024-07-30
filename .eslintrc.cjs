@@ -7,7 +7,7 @@ module.exports = {
     '@electron-toolkit/eslint-config-prettier'
   ],
   rules: {
-    'no-console': 'error'
+    'no-unused-vars': 'error'
   },
   parserOptions: {
     ecmaVersion: 2020,
