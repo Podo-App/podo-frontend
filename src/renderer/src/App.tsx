@@ -3,7 +3,7 @@ import React from 'react'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-  console.log('teeest e')
+  console.log('teeeest e')
   return (
     <React.Fragment>
       <p>test web</p>
