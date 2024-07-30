@@ -4,7 +4,7 @@ import React from 'react'
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const test = true
-  const test1 = true
+  const teest1 = true
   return (
     <React.Fragment>
       <p>test web</p>
