@@ -1,10 +1,9 @@
-import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
 import React from 'react'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-
+  console.log('test')
   return (
     <React.Fragment>
       <p>test web</p>
