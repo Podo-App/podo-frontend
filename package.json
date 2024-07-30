@@ -52,12 +52,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "src/**/*.{js,jsx,ts,tsx}": [
       "npm run format",
       "npm run lint"
     ],
     "*.{html,css,less,ejs}": [
-      "prettier --write"
+      "npm run format"
     ]
   }
 }
