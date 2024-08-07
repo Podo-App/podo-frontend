@@ -6,9 +6,6 @@ module.exports = {
     '@electron-toolkit/eslint-config-ts/recommended',
     '@electron-toolkit/eslint-config-prettier'
   ],
-  rules: {
-    'no-unused-vars': 'error'
-  },
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',

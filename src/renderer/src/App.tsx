@@ -1,36 +1,17 @@
-import electronLogo from './assets/electron.svg'
-import React from 'react'
+import { useApiGet } from './services/api'
+import { getProjects } from './services/projects'
 
 function App(): JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-  const test = true
-  const teest1 = true
-  return (
-    <React.Fragment>
-      <p>test web</p>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-    </React.Fragment>
-  )
+  const { data, error } = useApiGet(['projects'], getProjects, {
+    enabled: true,
+    refetchOnWindowFocus: true,
+    retry: 1
+  })
+
+  console.log('api response', data)
+  console.log('api error', error)
+
+  return <h2>Welcome to PoDo</h2>
 }
 
 export default App
