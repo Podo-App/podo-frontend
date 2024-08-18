@@ -1,17 +1,15 @@
-import { useApiGet } from './services/api'
-import { getProjects } from './services/projects'
+import { createProject, getAllProjects, getProjectById } from './services/projects'
+import { v4 as uuidv4 } from 'uuid'
 
 function App(): JSX.Element {
-  const { data, error } = useApiGet(['projects'], getProjects, {
-    enabled: true,
-    refetchOnWindowFocus: true,
-    retry: 1
-  })
-
-  console.log('api response', data)
-  console.log('api error', error)
-
-  return <h2>Welcome to PoDo</h2>
+  const onCreate = (): unknown => {
+    createProject({ name: 'test-project', _id: uuidv4() })
+    console.log('get project', getProjectById('b10e7c33-336e-4dfb-8fad-0ed43a702703'))
+    getAllProjects()
+    return null
+  }
+  // For testing purposes created this onCreate function
+  return <h2 onClick={onCreate}>Welcome to PoDo</h2>
 }
 
 export default App
