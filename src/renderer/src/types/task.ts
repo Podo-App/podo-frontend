@@ -7,6 +7,7 @@ interface SubTask {
 
 export interface Task {
   name: string
+  _id: string
   description: string
   dueDate: Date | string | number
   priority: Priority
