@@ -1,3 +1,5 @@
+import { HttpStatusCode } from 'axios'
+
 export interface CreateDocSuccessResponse {
   ok: boolean
   id: string
@@ -18,4 +20,18 @@ export interface GetMeta {
     start: number
     ids: string[]
   }
+}
+
+export interface CustomPouchError {
+  docId: string
+  error: boolean
+  message: string
+  name: string
+  reason: string
+  stack: string
+  status: HttpStatusCode
+}
+
+export interface ActiveTask extends GetMeta {
+  taskId?: string
 }

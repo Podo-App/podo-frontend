@@ -1,20 +1,22 @@
-type Priority = 'Low' | 'Medium' | 'High'
+type Priority = 'Low' | 'Medium' | 'High' | undefined
 
 interface SubTask {
   name: string
   isCompleted: boolean
 }
 
-export interface Task {
+export interface CreateTaskRequest {
   name: string
   _id: string
-  description: string
-  dueDate: Date | string | number
-  priority: Priority
-  projectId: string
-  totalPomos: number
-  completedPomos: number
-  isActive: boolean
-  isCompleted: boolean
-  subTasks: SubTask[]
+  description?: string
+  dueDate?: Date | string | number
+  priority?: Priority
+  projectId?: string
+  totalPomos?: number
+  isCompleted?: boolean
+  subTasks?: SubTask[]
+}
+
+export interface UpdateTaskRequest extends CreateTaskRequest {
+  _rev: string
 }
