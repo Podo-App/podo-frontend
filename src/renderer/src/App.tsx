@@ -6,7 +6,7 @@ import {
   updateProject
 } from './services/projects'
 import { v4 as uuidv4 } from 'uuid'
-import { activateTask, createTask, getAllTasks } from './services/tasks'
+import { createTask, getAllTasks } from './services/tasks'
 import TaskInput from './components/TaskInput'
 
 function App(): JSX.Element {
@@ -42,48 +42,9 @@ function App(): JSX.Element {
   // For testing purposes created this onCreate function
   return (
     <>
-      <h2
-        onClick={() => {
-          onCreate()
-          // createTask({
-          //   name: 'test-task',
-          //   _id: uuidv4(),
-          //   description: 'test task description',
-          //   dueDate: new Date(),
-          //   priority: 'Low',
-          //   totalPomos: 4,
-          //   isCompleted: false,
-          //   subTasks: [
-          //     {
-          //       name: 'test-sub-task',
-          //       isCompleted: false
-          //     }
-          //   ]
-          // })
-        }}
-      >
-        Create a task
-      </h2>
-      <h2
-        onClick={async () => {
-          await activateTask('3f5571c1-76a9-4d05-bbad-d5c9dfcd0424')
-          // activateTask('e3079850-20d2-4cb4-9581-70e1c06af322')
-        }}
-      >
-        activate task 3f5571c1-76a9-4d05-bbad-d5c9dfcd0424
-      </h2>
-      <h2
-        onClick={async () => {
-          await getAllTasks()
-        }}
-      >
-        get tasks
-      </h2>
-      <div className="">
-        <h2 onClick={onCreate}>Welcome to PoDo</h2>
-        <div className="w-[90%] mx-auto">
-          <TaskInput />
-        </div>
+      <div onClick={onCreate}>Test task create</div>
+      <div className="max-w-screen-2xl mx-auto my-10">
+        <TaskInput />
       </div>
     </>
   )

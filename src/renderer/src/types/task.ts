@@ -20,3 +20,14 @@ export interface CreateTaskRequest {
 export interface UpdateTaskRequest extends CreateTaskRequest {
   _rev: string
 }
+
+export interface Task {
+  name: string
+  description?: string
+  dueDate?: Date | string | number
+  priority?: Priority
+  projectId?: string
+  totalPomos?: number
+  isCompleted?: boolean
+  subTasks?: SubTask[]
+}
