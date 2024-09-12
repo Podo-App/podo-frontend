@@ -8,6 +8,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { activateTask, createTask, getAllTasks } from './services/tasks'
 import TaskInput from './components/TaskInput'
+import ActiveTask from './components/ActiveTask'
 
 function App(): JSX.Element {
   const onCreate = (): unknown => {
@@ -83,6 +84,7 @@ function App(): JSX.Element {
         <h2 onClick={onCreate}>Welcome to PoDo</h2>
         <div className="w-[90%] mx-auto">
           <TaskInput />
+          <ActiveTask />
         </div>
       </div>
     </>

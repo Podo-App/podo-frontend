@@ -4,9 +4,9 @@
 
 @layer components {
   .button-primary {
-    @apply bg-primaryblue py-1 px-3 rounded-md text-lg font-bold;
+    @apply bg-primaryblue py-1 px-3 rounded-md text-lg font-medium;
   }
   .button-secondary {
-    @apply bg-blue text-[#596063] py-1 px-3 rounded-md text-lg font-bold;
+    @apply bg-blue text-[#596063] py-1 px-3 rounded-md text-lg font-medium;
   }
 }
