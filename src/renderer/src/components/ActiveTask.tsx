@@ -15,7 +15,7 @@ const ActiveTask: React.FC<unknown> = () => {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const toggleSubTasks = () => setShowSubTasks((prev: boolean) => !prev)
   return (
-    <div className="mt-10 ">
+    <div className="mt-10">
       <div
         className={`w-full px-4 py-4 bg-blue flex justify-between items-center rounded-ss-lg rounded-se-lg ${!showSubTasks && 'rounded-es-lg rounded-ee-lg'}`}
       >
