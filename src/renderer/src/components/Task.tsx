@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { BsFlag } from 'react-icons/bs'
 import { IoCalendarClearOutline } from 'react-icons/io5'
 import { LuFolderTree } from 'react-icons/lu'
+import { RxPlay } from 'react-icons/rx'
 
 interface TaskType {
   name: string
@@ -50,18 +51,24 @@ const Task: React.FC<unknown> = (props: TaskProps) => {
             ))}
           </div>
         )}
-        <div className="flex flex-row gap-4 items-center">
-          <div className="flex flex-row gap-2 items-center">
-            <IoCalendarClearOutline size={'1rem'} />
-            <p className="text-sm">{task?.dueDate}</p>
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row gap-4 items-center">
+            <div className="flex flex-row gap-2 items-center">
+              <IoCalendarClearOutline size={'1rem'} />
+              <p className="text-sm">{task?.dueDate}</p>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <BsFlag size={'1rem'} />
+              <p className="text-sm">{task?.priority}</p>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <LuFolderTree className="cursor-pointer" size={'1rem'} onClick={toggleSubTasks} />
+            </div>
           </div>
-          <div className="flex flex-row gap-2 items-center">
-            <BsFlag size={'1rem'} />
-            <p className="text-sm">{task?.priority}</p>
-          </div>
-          <div className="flex flex-row gap-2 items-center">
-            <LuFolderTree className="cursor-pointer" size={'1rem'} onClick={toggleSubTasks} />
-          </div>
+          <button className="button-primary py-1 px-2 text-xs inline-flex items-center gap-2">
+            <RxPlay size={'0.75rem'} />
+            <span>START</span>
+          </button>
         </div>
       </div>
     </div>
