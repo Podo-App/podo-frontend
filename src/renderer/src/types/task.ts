@@ -1,6 +1,6 @@
-type Priority = 'Low' | 'Medium' | 'High' | undefined
+export type Priority = 'Low' | 'Medium' | 'High' | undefined
 
-interface SubTask {
+export interface SubTask {
   name: string
   isCompleted: boolean
 }
