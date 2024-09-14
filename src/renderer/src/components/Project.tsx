@@ -73,21 +73,20 @@ const Project: React.FC<unknown> = (props: ProjectProps) => {
           </>
         )}
       </div>
-      {expand ||
-        (view === 'grid' && (
-          <div
-            className={`flex flex-col gap-4 p-4 rounded-es-lg rounded-ee-lg shadow-lg ${view === 'grid' ? 'max-h-[50vh] overflow-scroll' : ''}`}
-          >
-            {projectTasks?.map((task: any, index: number) => (
-              <div key={task?.name}>
-                <Task task={task} />
-                {index <= projectTasks?.length - 2 && (
-                  <hr className="h-px mt-4 bg-gray-light border-0 " />
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
+      {(expand || view === 'grid') && (
+        <div
+          className={`flex flex-col gap-4 p-4 rounded-es-lg rounded-ee-lg shadow-lg ${view === 'grid' ? 'max-h-[50vh] overflow-y-scroll no-scrollbar' : ''}`}
+        >
+          {projectTasks?.map((task: any, index: number) => (
+            <div key={task?.name}>
+              <Task task={task} />
+              {index <= projectTasks?.length - 2 && (
+                <hr className="h-px mt-4 bg-gray-light border-0 " />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
